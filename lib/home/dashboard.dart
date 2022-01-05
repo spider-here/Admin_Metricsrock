@@ -1,3 +1,4 @@
+import 'package:admin_metricsrock/access/splash.dart';
 import 'package:admin_metricsrock/utils/customWidgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -13,6 +14,7 @@ import 'home_controllers/dashboardController.dart';
 class dashboard extends StatelessWidget{
   customWidgets _widgets = new customWidgets();
   dashboardController _controller = Get.put(dashboardController());
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +24,23 @@ class dashboard extends StatelessWidget{
           .backgroundColor,
       extendBodyBehindAppBar: false,
       appBar: AppBar(
+        actionsIconTheme: IconThemeData(
+            color: Theme.of(context).primaryColor
+        ),
+        iconTheme: IconThemeData(
+            color: Theme.of(context).primaryColor
+        ),
         backgroundColor: Colors.white,
         elevation: 10.0,
         title: Image.asset("assets/images/metricsrock_logo.png", width: 300.0,),
         centerTitle: true,
+        actions: [
+          TextButton.icon(onPressed: (){
+            _auth.signOut();
+            Get.off(()=>splash());},
+            icon: Icon(Icons.logout_rounded), label: Text("Signout",
+              style: TextStyle(color: Theme.of(context).primaryColor),),)
+        ],
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Theme
               .of(context)
